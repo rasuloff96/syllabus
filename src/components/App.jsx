@@ -6,6 +6,8 @@ import AttendancePage from "./pages/AttendancePage.jsx";
 import StatisticsPage from "./pages/StatisticsPage.jsx"; // ✅ Yangi sahifa
 
 const App = () => {
+
+
   const getStoredStudents = () => {
     const savedStudents = localStorage.getItem("students");
     return savedStudents ? JSON.parse(savedStudents) : [];
@@ -19,16 +21,16 @@ const App = () => {
     localStorage.setItem("students", JSON.stringify(students));
   }, [students]);
 
-  const markAttendance = (id, status) => {
-    setStudents((prev) =>
-      prev.map((student) =>
-        student.id === id ? { ...student, attendance: status } : student
+  const markAttendance = (id) => {
+    setStudents((prevStudents) =>
+      prevStudents.map((student) =>
+        student.id === id ? { ...student, attendance: !student.attendance } : student
       )
     );
   };
 
   const deleteStudent = (id) => {
-    setStudents((prev) => prev.filter((student) => student.id !== id));
+    setStudents((prevStudents) => prevStudents.filter((student) => student.id !== id));
   };
 
   const addStudent = (newStudent) => {
@@ -65,7 +67,7 @@ const App = () => {
           }
         />
         <Route path="/add-student" element={<AddStudentPage addStudent={addStudent} />} />
-        <Route path="/statistics" element={<StatisticsPage students={students} />} /> {/* ✅ Qo‘shildi */}
+        <Route path="/statistics" element={<StatisticsPage students={students} />} /> {/* ✅ Qo'shildi */}
       </Routes>
     </Router>
   );
