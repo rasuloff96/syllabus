@@ -1,38 +1,53 @@
-const StudentList = ({ students, toggleAttendance, removeStudent }) => {
+import { useState, useEffect } from "react";
+import AddStudent from "./AddStudents";
+import Navbar from "./Navbar";
+import StudentList from "./StudentList";
+
+function App() {
+  const [students, setStudents] = useState(() => {
+    const savedStudents = localStorage.getItem("students");
+    return savedStudents ? JSON.parse(savedStudents) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("students", JSON.stringify(students));
+  }, [students]);
+
+  const addStudent = (name) => {
+    if (!name.trim()) return;
+    const newStudent = {
+      id: students.length + 1,
+      name,
+      present: false,
+    };
+    setStudents([...students, newStudent]);
+  };
+
+  const toggleAttendance = (id) => {
+    setStudents(
+      students.map((student) =>
+        student.id === id ? { ...student, present: !student.present } : student
+      )
+    );
+  };
+
+  const removeStudent = (id) => {
+    setStudents(students.filter((student) => student.id !== id));
+  };
+
   return (
-    <div className="space-y-3">
-      {students.length === 0 ? (
-        <p className="text-center text-gray-500">Hozircha o'quvchilar yo'q.</p>
-      ) : (
-        students.map((student) => (
-          <div
-            key={student.id}
-            className={`flex justify-between items-center p-3 border rounded-lg shadow-md ${student.present ? "bg-green-100" : "bg-red-100"
-              }`}
-          >
-            <span className="text-lg font-medium">{student.name}</span>
-            <div className="flex gap-2">
-              <button
-                onClick={() => toggleAttendance(student.id)}
-                className={`px-3 py-1 rounded-md text-white transition duration-200 ${student.present
-                  ? "bg-green-500 hover:bg-green-600"
-                  : "bg-red-500 hover:bg-red-600"
-                  }`}
-              >
-                {student.present ? "Bor" : "Yo'q"}
-              </button>
-              <button
-                onClick={() => removeStudent(student.id)}
-                className="px-3 py-1 rounded-md bg-gray-500 hover:bg-gray-700 text-white transition duration-200"
-              >
-                ❌
-              </button>
-            </div>
-          </div>
-        ))
-      )}
+    <div className="bg-gray-100 min-h-screen p-4 flex flex-col items-center">
+      <Navbar students={students} />
+      <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-6 mt-6">
+        <AddStudent addStudent={addStudent} />
+        <StudentList
+          students={students}
+          toggleAttendance={toggleAttendance}
+          removeStudent={removeStudent}
+        />
+      </div>
     </div>
   );
-};
+}
 
-export default StudentList;
+export default App;
