@@ -1,41 +1,41 @@
-const StudentList = ({ students, toggleAttendance, removeStudent }) => {
-    return (
-      <div className="space-y-3">
-        {students.length === 0 ? (
-          <p className="text-center text-gray-500">Hozircha o‘quvchilar yo‘q.</p>
-        ) : (
-          students.map((student) => (
-            <div
-              key={student.id}
-              className={`flex justify-between items-center p-3 border rounded-lg shadow-md ${
-                student.present ? "bg-green-100" : "bg-red-100"
+import React from "react";
+
+const StudentList = ({ students, markAttendance, deleteStudent }) => {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {students.map((student) => (
+        <div key={student.id} className="bg-white shadow-lg rounded-lg p-4 flex flex-col gap-2">
+          <h2 className="text-xl font-bold">{student.name}</h2>
+          <p className="text-gray-600">{student.className}</p>
+
+          <div className="flex gap-2">
+            <button
+              className={`px-4 py-2 rounded-lg text-white ${
+                student.attendance ? "bg-green-500" : "bg-gray-400"
               }`}
+              onClick={() => markAttendance(student.id, true)}
             >
-              <span className="text-lg font-medium">{student.name}</span>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => toggleAttendance(student.id)}
-                  className={`px-3 py-1 rounded-md text-white transition duration-200 ${
-                    student.present
-                      ? "bg-green-500 hover:bg-green-600"
-                      : "bg-red-500 hover:bg-red-600"
-                  }`}
-                >
-                  {student.present ? "Bor" : "Yo‘q"}
-                </button>
-                <button
-                  onClick={() => removeStudent(student.id)}
-                  className="px-3 py-1 rounded-md bg-gray-500 hover:bg-gray-700 text-white transition duration-200"
-                >
-                  ❌
-                </button>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-    );
-  };
-  
-  export default StudentList;
-  
+              Hozir
+            </button>
+            <button
+              className={`px-4 py-2 rounded-lg text-white ${
+                !student.attendance ? "bg-red-500" : "bg-gray-400"
+              }`}
+              onClick={() => markAttendance(student.id, false)}
+            >
+              Yo'q
+            </button>
+            <button
+              className="px-4 py-2 rounded-lg bg-black text-white"
+              onClick={() => deleteStudent(student.id)}
+            >
+              O'chirish
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default StudentList;

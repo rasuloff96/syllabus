@@ -1,52 +1,74 @@
-import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState } from "react";
 import Navbar from "./Navbar.jsx";
+import StudentList from "./StudentList.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AddStudentPage from "./pages/AddStudentPage.jsx";
 import AttendancePage from "./pages/AttendancePage.jsx";
 
-function App() {
-  const [students, setStudents] = useState(() => {
-    const savedStudents = localStorage.getItem("students");
-    return savedStudents ? JSON.parse(savedStudents) : [];
-  });
+const App = () => {
+  const [students, setStudents] = useState([
+    { id: 1, name: "Ali", className: "10-A", attendance: false },
+    { id: 2, name: "Zarina", className: "11-B", attendance: false },
+    { id: 3, name: "Bek", className: "9-C", attendance: false },
+  ]);
 
-  useEffect(() => {
-    localStorage.setItem("students", JSON.stringify(students));
-  }, [students]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("default");
 
-  const addStudent = (name) => {
-    if (!name.trim()) return;
-    const newStudent = {
-      id: students.length + 1,
-      name,
-      present: false,
-    };
-    setStudents([...students, newStudent]);
-  };
-
-  const toggleAttendance = (id) => {
-    setStudents(
-      students.map((student) =>
-        student.id === id ? { ...student, present: !student.present } : student
+  // **Davomatni belgilash**
+  const markAttendance = (id, status) => {
+    setStudents((prev) =>
+      prev.map((student) =>
+        student.id === id ? { ...student, attendance: status } : student
       )
     );
   };
 
-  const removeStudent = (id) => {
-    setStudents(students.filter((student) => student.id !== id));
+  // **O'quvchini o'chirish**
+  const deleteStudent = (id) => {
+    setStudents((prev) => prev.filter((student) => student.id !== id));
   };
+
+  // **O'quvchi qo'shish**
+  const addStudent = (newStudent) => {
+    setStudents((prev) => [...prev, { id: Date.now(), ...newStudent }]);
+  };
+
+  // **Qidirish**
+  const filteredStudents = students.filter((student) =>
+    student.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // **Saralash**
+  const sortedStudents = [...filteredStudents].sort((a, b) => {
+    if (sortOrder === "name") {
+      return a.name.localeCompare(b.name);
+    } else if (sortOrder === "attendance") {
+      return b.attendance - a.attendance;
+    }
+    return 0;
+  });
 
   return (
     <Router>
       <Navbar />
-      <div className="p-6">
-        <Routes>
-          <Route path="/" element={<AttendancePage students={students} toggleAttendance={toggleAttendance} removeStudent={removeStudent} />} />
-          <Route path="/add-student" element={<AddStudentPage addStudent={addStudent} />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <AttendancePage
+              students={sortedStudents}
+              markAttendance={markAttendance}
+              deleteStudent={deleteStudent}
+              setSearchQuery={setSearchQuery}
+              setSortOrder={setSortOrder}
+            />
+          }
+        />
+        <Route path="/add-student" element={<AddStudentPage addStudent={addStudent} />} />
+      </Routes>
     </Router>
   );
-}
+};
 
 export default App;
