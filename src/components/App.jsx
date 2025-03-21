@@ -67,7 +67,7 @@ const App = () => {
           }
         />
         <Route path="/add-student" element={<AddStudentPage addStudent={addStudent} />} />
-        <Route path="/statistics" element={<StatisticsPage students={students} />} /> {/* ✅ Qo'shildi */}
+        <Route path="/statistics" element={<StatisticsPage students={students} />} />
       </Routes>
     </Router>
   );

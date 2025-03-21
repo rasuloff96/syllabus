@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 const StatisticsPage = () => {
     const [attendanceStats, setAttendanceStats] = useState({});
 
-    // LocalStorage'dan statistikani olish
     useEffect(() => {
         const storedStats = JSON.parse(localStorage.getItem("attendanceStats")) || {};
         setAttendanceStats(storedStats);

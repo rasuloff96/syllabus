@@ -8,7 +8,6 @@ const AttendancePage = ({ students, markAttendance, deleteStudent, setSearchQuer
         <div className="p-6 bg-gray-100 dark:bg-gray-900 min-h-screen text-gray-900 dark:text-white">
             <h1 className="text-2xl font-bold mb-4">📋 Davomat Sahifasi</h1>
 
-            {/* 🔍 Qidirish Inputi */}
             <input
                 type="text"
                 placeholder="🔎 O'quvchi nomi bo'yicha qidirish..."
@@ -16,7 +15,6 @@ const AttendancePage = ({ students, markAttendance, deleteStudent, setSearchQuer
                 onChange={(e) => setSearchQuery(e.target.value)}
             />
 
-            {/* 📌 Saralash */}
             <select
                 className="border dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg px-4 py-2 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={(e) => setSortOrder(e.target.value)}
@@ -26,7 +24,6 @@ const AttendancePage = ({ students, markAttendance, deleteStudent, setSearchQuer
                 <option value="attendance">✅ Davomat bo'yicha</option>
             </select>
 
-            {/* 👨‍🎓 O'quvchilar ro'yxati */}
             <StudentList students={students} markAttendance={markAttendance} deleteStudent={deleteStudent} />
         </div>
     );
