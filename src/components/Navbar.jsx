@@ -1,13 +1,13 @@
-const Navbar = ({ students }) => {
-    const presentCount = students.filter((student) => student.present).length;
-    const totalCount = students.length;
+import { Link } from "react-router-dom";
 
+const Navbar = () => {
     return (
         <nav className="w-full bg-blue-500 text-white py-4 px-6 flex justify-between items-center shadow-md">
             <h1 className="text-xl font-bold">📚 Davomat tizimi</h1>
-            <span className="text-lg font-medium">
-                Davomat: {presentCount} / {totalCount}
-            </span>
+            <div className="flex gap-4">
+                <Link to="/" className="hover:underline">Davomat</Link>
+                <Link to="/add-student" className="hover:underline">O'quvchi qo'shish</Link>
+            </div>
         </nav>
     );
 };

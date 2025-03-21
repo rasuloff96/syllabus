@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import AddStudent from "./AddStudents";
-import Navbar from "./Navbar";
-import StudentList from "./StudentList";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./Navbar.jsx";
+import AddStudentPage from "./pages/AddStudentPage.jsx";
+import AttendancePage from "./pages/AttendancePage.jsx";
 
 function App() {
   const [students, setStudents] = useState(() => {
@@ -36,17 +37,15 @@ function App() {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen p-4 flex flex-col items-center">
-      <Navbar students={students} />
-      <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-6 mt-6">
-        <AddStudent addStudent={addStudent} />
-        <StudentList
-          students={students}
-          toggleAttendance={toggleAttendance}
-          removeStudent={removeStudent}
-        />
+    <Router>
+      <Navbar />
+      <div className="p-6">
+        <Routes>
+          <Route path="/" element={<AttendancePage students={students} toggleAttendance={toggleAttendance} removeStudent={removeStudent} />} />
+          <Route path="/add-student" element={<AddStudentPage addStudent={addStudent} />} />
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 }
 
