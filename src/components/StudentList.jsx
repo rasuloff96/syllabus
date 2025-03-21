@@ -14,11 +14,11 @@ const StudentList = ({ students, toggleAttendance }) => {
                         <button
                             onClick={() => toggleAttendance(student.id)}
                             className={`px-3 py-1 rounded-md text-white transition duration-200 ${student.present
-                                    ? "bg-green-500 hover:bg-green-600"
-                                    : "bg-red-500 hover:bg-red-600"
+                                ? "bg-green-500 hover:bg-green-600"
+                                : "bg-red-500 hover:bg-red-600"
                                 }`}
                         >
-                            {student.present ? "Bor" : "Yo‘q"}
+                            {student.present ? "Bor" : "Yo'q"}
                         </button>
                     </div>
                 ))
