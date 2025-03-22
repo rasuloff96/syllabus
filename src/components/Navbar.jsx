@@ -3,7 +3,13 @@ import { NavLink } from "react-router-dom";
 const Navbar = () => {
     return (
         <nav className="w-full bg-blue-600 dark:bg-gray-800 text-white py-4 px-6 flex justify-between items-center shadow-lg">
-            <h1 className="text-2xl font-bold tracking-wide">📚 Davomat tizimi</h1>
+
+            <NavLink
+                to="/"
+            >
+                <h1 className="text-2xl font-bold tracking-wide">📚 Davomat tizimi</h1>
+            </NavLink>
+
             <div className="flex gap-6">
                 <NavLink
                     to="/"
